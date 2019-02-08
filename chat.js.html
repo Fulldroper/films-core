@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<meta>
+		<script>
+			function chat(){
+				const reader = new FileReader();
+				var blob = null;
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", "http://192.168.0.104/films/chat.txt");
+				xhr.responseType = "blob";//force the HTTP response, response-type header to be blob
+				xhr.onload = function()
+				{
+					document.getElementById("messagebuffer").innerHTML= xhr.response;
+					var myReader = new FileReader();
+					myReader.addEventListener("loadend", function(e){
+						document.getElementById("messagebuffer").innerHTML= e.srcElement.result;
+						console.log("load");
+					});
+					myReader.readAsText(xhr.response, 'CP1251');
+				}
+				xhr.send();
+			}
+			window.onload = function() {
+				chat();
+			};
+		</script>
+	</head>
+	<body>
+		<div id="messagebuffer"></div>
+	</body>
+</html>
